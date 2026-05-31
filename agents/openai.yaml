@@ -1,0 +1,4 @@
+interface:
+  display_name: "Workspace Memory Optimizer"
+  short_description: "Turn a messy folder into a reusable Codex memory workspace."
+  default_prompt: "Optimize this folder into a reusable Codex memory workspace with AGENTS.md, memory/index.md, project cards, and knowledge files."
