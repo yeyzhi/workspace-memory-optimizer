@@ -9,6 +9,8 @@ Use this as a neutral starter. Adapt category names to the folder's actual conte
 
 This workspace is memory-first. Before starting any task, read `memory/index.md`, decide whether reusable knowledge exists, then read the relevant knowledge files.
 
+Default restructuring mode is full restructuring: create durable top-level folders, move clear files into their long-term homes, and preserve traceability with a migration map.
+
 ## Required Lookup
 
 1. Read `memory/index.md`.
@@ -32,6 +34,20 @@ At the end of a task, update memory only when the work produced reusable knowled
 - mistakes, risks, and delivery lessons
 
 Do not record temporary chat, one-off commands, transient scheduling, dependency folders, caches, or build artifacts.
+
+## Restructuring Rule
+
+When asked to optimize or organize this workspace, default to full restructuring:
+
+- Move clear project materials into `projects/<project>/`.
+- Move reusable docs/templates into `docs/`.
+- Move reusable tools/scripts into `tools/`.
+- Move cross-project final exports into root `outputs/`.
+- Move low-frequency historical material into `archive/`.
+- Create or update `memory/migration-map-YYYY-MM-DD.md`.
+- Keep caches, dependencies, and build artifacts ignored.
+
+Ask for user approval before moving files outside the workspace, deleting files, overwriting files, or making a move whose ownership is unclear.
 
 ## Inbox Rule
 

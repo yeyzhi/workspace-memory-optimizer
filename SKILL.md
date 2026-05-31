@@ -23,11 +23,13 @@ Optimize for reusable knowledge first, historical file lookup second. Do not bui
    - Avoid hardcoding a domain. A legal workspace, design archive, research folder, consulting folder, software repo, and sales workspace should all produce different knowledge categories.
    - If several domains coexist, create a neutral knowledge index and project cards rather than forcing one taxonomy.
 
-3. **Choose a restructuring level**
-   - Light: keep files in place, add `AGENTS.md` and `memory/`.
-   - Medium: add knowledge files and project cards, move only obvious source/output/tool folders.
-   - Full: migrate files into `projects/`, `docs/`, `outputs/`, `tools/`, `archive/`, and keep a migration map.
-   - If the user requested implementation, choose the safest level that satisfies the request. Ask only when moving or deleting ambiguity would be risky.
+3. **Default to full restructuring**
+   - Default mode is **Full**: migrate files into `projects/`, `docs/`, `outputs/`, `tools/`, `archive/`, create `inbox/`, and keep a migration map.
+   - Use **Medium** only if the user explicitly asks for minimal movement, the workspace has a strong existing structure, or permissions prevent safe moves.
+   - Use **Light** only if the user asks for a non-mutating plan, an index-only setup, or forbids file moves.
+   - If implementation is requested, execute the full restructure unless blocked by permission, ambiguity, or destructive risk.
+   - Request user approval when an operation needs elevated permissions, moves files outside the target workspace, deletes files, overwrites existing files, or has unclear ownership.
+   - Prefer moving noisy dependencies/caches to ignored local storage or adding ignore rules; do not delete them unless the user explicitly approves.
 
 4. **Create the memory-first structure**
    - Default target:
@@ -85,7 +87,7 @@ Optimize for reusable knowledge first, historical file lookup second. Do not bui
    - Keep `inbox/` as a temporary intake area, not long-term storage.
 
 10. **Preserve traceability**
-   - For medium/full restructures, create `memory/migration-map-YYYY-MM-DD.md`.
+   - For the default full restructure, create `memory/migration-map-YYYY-MM-DD.md`.
    - Record old path -> new path for moved folders/files.
    - Move dependencies/caches to ignored local areas or leave them untouched and add `.gitignore` rules.
 
@@ -101,10 +103,12 @@ Optimize for reusable knowledge first, historical file lookup second. Do not bui
 
 - Prefer knowledge categories over task history when future reuse matters.
 - Prefer project cards over dumping long histories into `memory/index.md`.
+- Prefer full restructuring by default: create durable top-level structure and move clear files into their long-term homes.
 - Prefer stable names such as `docs/`, `outputs/`, `tools/`, and `archive/` over deeply customized top-level directories.
 - Keep `memory/index.md` short enough to read every time.
 - If the folder already has a strong structure, augment it instead of replacing it.
 - If files are sensitive or hard to classify, leave them in place and index them rather than moving them.
+- Never delete or overwrite user files as part of “cleanup” without explicit approval.
 
 ## Useful Deliverables
 
