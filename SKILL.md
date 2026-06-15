@@ -1,129 +1,103 @@
 ---
 name: workspace-memory-optimizer
-description: Transform an existing messy folder, project directory, or personal work archive into a reusable Codex memory workspace. Use when the user asks to organize a workspace, create AGENTS.md rules, build a memory/index.md knowledge system, migrate scattered files into projects/docs/outputs/tools, preserve task/project context for future agents, or package a generalized folder-structure method that adapts to the current folder contents rather than a single domain.
+description: "Transform or upgrade a messy folder, project directory, or work archive into a compact, memory-first Codex workspace with four visible entrances: inbox, memory, projects, and library. Use when Codex needs to organize a workspace, migrate an older docs/outputs/tools/archive layout, create AGENTS.md and memory indexes, reduce folder noise, or preserve reusable knowledge and project context."
 ---
 
 # Workspace Memory Optimizer
 
+## Version
+
+Current version: **2.0.0** (2026-06-15).
+
+Version 2 replaces the older multi-root `docs/`, `outputs/`, `tools/`, `tasks/`, and `archive/` layout with four visible entrances and creates project subfolders only when they contain files. When upgrading an existing version 1 workspace, read `references/v2-migration.md` before moving files.
+
 ## Purpose
 
-Turn a folder full of mixed source files, outputs, notes, tools, and one-off artifacts into a durable workspace where Codex can recover reusable knowledge before starting future tasks.
-
-Optimize for reusable knowledge first, historical file lookup second. Do not build a diary of every task unless the user explicitly asks.
+Build a workspace that is easy for both humans and Codex to navigate. Optimize for reusable knowledge first, project lookup second, and minimal folder noise throughout.
 
 ## Core Workflow
 
-1. **Inventory before changing files**
-   - Inspect top-level files/directories, obvious manifests, existing `README.md`/`AGENTS.md`, hidden dependency folders, and large output/source folders.
-   - Use `rg --files`, `find -maxdepth`, `du -sh`, and `git status --short` where available.
-   - Identify likely categories: projects, source materials, final outputs, reusable docs, tools/scripts, local dependencies/caches, archives.
+1. **Read before changing**
+   - Inspect `memory/index.md` when present.
+   - Inventory top-level folders, project cards, hidden dependencies, empty folders, large artifacts, and Git state.
+   - Check `inbox/` for unclassified files.
+   - Detect whether the workspace uses the older root `docs/`, `outputs/`, `tools/`, `tasks/`, or `archive/` layout. If it does, read `references/v2-migration.md`.
 
-2. **Infer the workspace domain**
-   - Derive themes from filenames, folders, document names, and output types.
-   - Avoid hardcoding a domain. A legal workspace, design archive, research folder, consulting folder, software repo, and sales workspace should all produce different knowledge categories.
-   - If several domains coexist, create a neutral knowledge index and project cards rather than forcing one taxonomy.
+2. **Use four visible entrances**
+   ```text
+   workspace/
+   ├── AGENTS.md
+   ├── README.md
+   ├── inbox/
+   ├── memory/
+   ├── projects/
+   └── library/
+       ├── templates/
+       ├── tools/
+       └── skills/
+   ```
+   - `inbox/`: temporary intake only.
+   - `memory/`: reusable knowledge, indexes, decisions, and migration records.
+   - `projects/`: all project-specific source files, work, and deliverables.
+   - `library/`: proven cross-project templates, tools, and skills.
 
-3. **Default to full restructuring**
-   - Default mode is **Full**: migrate files into `projects/`, `docs/`, `outputs/`, `tools/`, `archive/`, create `inbox/`, and keep a migration map.
-   - Use **Medium** only if the user explicitly asks for minimal movement, the workspace has a strong existing structure, or permissions prevent safe moves.
-   - Use **Light** only if the user asks for a non-mutating plan, an index-only setup, or forbids file moves.
-   - If implementation is requested, execute the full restructure unless blocked by permission, ambiguity, or destructive risk.
-   - Request user approval when an operation needs elevated permissions, moves files outside the target workspace, deletes files, overwrites existing files, or has unclear ownership.
-   - Prefer moving noisy dependencies/caches to ignored local storage or adding ignore rules; do not delete them unless the user explicitly approves.
+3. **Remove ambiguous top-level categories**
+   - Do not create root `docs/`, `outputs/`, `tools/`, `tasks/`, or `archive/`.
+   - Project-specific outputs belong in the project.
+   - Cross-project reusable assets belong in `library/`.
+   - Migration records and durable decisions belong in `memory/`.
+   - Preserve unclear content in place until ownership is established; never classify solely by filename extension.
 
-4. **Create the memory-first structure**
-   - Default target:
-     ```text
-     workspace/
-     ├── AGENTS.md
-     ├── inbox/
-     ├── memory/
-     │   ├── index.md
-     │   ├── proposal-patterns.md
-     │   ├── project-lessons.md
-     │   ├── customer-faq.md
-     │   ├── competitor-research.md
-     │   └── mistakes.md
-     ├── projects/
-     ├── docs/
-     └── outputs/
-     ```
-   - Adapt file names when the workspace is not business/proposal oriented:
-     - Research: `research-patterns.md`, `literature-notes.md`, `methods.md`
-     - Design/content: `style-patterns.md`, `asset-lessons.md`, `publishing-checks.md`
-     - Software: `engineering-patterns.md`, `architecture-decisions.md`, `runbooks.md`
-     - Operations: `process-patterns.md`, `stakeholder-faq.md`, `incident-lessons.md`
+4. **Create project folders on demand**
+   - Every durable project gets `projects/YYYY-MM-topic/PROJECT.md`.
+   - Create `source/`, `work/`, and `outputs/` only when each has actual content.
+   - Keep status, notes, lessons, and next lookup in `PROJECT.md`.
+   - Do not pre-create empty `notes/` or `archive/` folders.
+   - Do not force one-off files into projects when they are better represented as reusable knowledge or library assets.
 
-5. **Write AGENTS.md as the behavioral contract**
-   - Require Codex to read `memory/index.md` before any task.
-   - Require Codex to select and read the relevant knowledge files before searching project history.
-   - Require Codex to check `inbox/` for task-related new files after the knowledge lookup.
-   - Require Codex to move matching inbox files into existing projects, or create a new project when no match exists.
-   - Require future updates only for reusable knowledge: workflows, decision logic, reusable explanations, customer/stakeholder insights, competitive/market findings, mistakes, and project lessons.
-   - Explicitly exclude low-value memory: temporary chat fragments, one-off commands, transient scheduling, caches, dependencies, and build artifacts.
+5. **Write navigation rules**
+   - `AGENTS.md` must require reading `memory/index.md` before work.
+   - `memory/index.md` routes task types to reusable knowledge.
+   - `memory/context-index.md` routes keywords to project cards.
+   - `README.md` explains the shortest human lookup path.
 
-6. **Write memory/index.md as the knowledge router**
-   - It should not hold all knowledge.
-   - It maps task types and keywords to the files Codex should read first.
-   - It should include a rule that project history is second-layer lookup.
+6. **Preserve traceability**
+   - Write `memory/migration-map-YYYY-MM-DD.md`.
+   - Record old path -> new path for moved files and folders.
+   - Record any intentionally retained legacy paths and why they remain.
+   - Never overwrite or delete user files during cleanup without clear approval.
 
-7. **Seed knowledge files from existing contents**
-   - Extract reusable patterns from filenames and existing artifacts.
-   - Keep entries concise and actionable.
-   - Prefer “When doing X, first check Y, then decide Z” over “On date A we did B”.
-   - Put detailed historical files in project cards, not in the main knowledge files.
+7. **Validate**
+   - Verify all durable projects have `PROJECT.md`.
+   - Verify paths in Markdown still resolve.
+   - Verify `inbox/` contains no forgotten task files.
+   - Verify empty scaffold folders are gone.
+   - Verify legacy roots are gone or explicitly documented as retained.
+   - Verify Markdown navigation points to the new paths.
+   - Verify dependencies, caches, `.DS_Store`, and build artifacts are ignored.
 
-8. **Create project cards when useful**
-   - For each durable project, create `projects/<date-or-topic>/PROJECT.md`.
-   - Include: status, goal, source materials, key outputs, reusable lessons, current gaps, next recommended lookup.
-   - Do not force every tiny task into a project.
+## Placement Rules
 
-9. **Create an inbox when the user wants a single drop zone**
-   - Add `inbox/README.md`.
-   - Tell the user they can place all new files in `inbox/` or `inbox/<task-name>/`.
-   - At task start, classify inbox files by filename, folder context, user request, and quick content inspection.
-   - If files match an existing project, move them to `projects/<project>/source/`, `work/`, or `outputs/`.
-   - If files do not match any existing project, create `projects/YYYY-MM-topic/` with `PROJECT.md`, `source/`, `outputs/`, `notes/`, `work/`, and `archive/`.
-   - Keep `inbox/` as a temporary intake area, not long-term storage.
-
-10. **Preserve traceability**
-   - For the default full restructure, create `memory/migration-map-YYYY-MM-DD.md`.
-   - Record old path -> new path for moved folders/files.
-   - Move dependencies/caches to ignored local areas or leave them untouched and add `.gitignore` rules.
-
-11. **Validate**
-    - Verify `AGENTS.md` points to `memory/index.md`.
-    - Verify `AGENTS.md` tells Codex to check `inbox/` when new files may be present.
-    - Verify `memory/index.md` can route representative future tasks.
-    - Verify every durable project has a `PROJECT.md`.
-    - Verify moved paths are captured in the migration map.
-    - Verify `.venv`, `node_modules`, caches, build outputs, `.DS_Store`, and similar noise are ignored.
+- New and unclassified -> `inbox/`
+- Project original materials -> `projects/<project>/source/`
+- Project intermediate files and scripts -> `projects/<project>/work/`
+- Project final deliverables -> `projects/<project>/outputs/`
+- Reusable knowledge -> `memory/`
+- Reusable templates -> `library/templates/`
+- Reusable tools -> `library/tools/`
+- Reusable skills -> `library/skills/`
 
 ## Decision Heuristics
 
-- Prefer knowledge categories over task history when future reuse matters.
-- Prefer project cards over dumping long histories into `memory/index.md`.
-- Prefer full restructuring by default: create durable top-level structure and move clear files into their long-term homes.
-- Prefer stable names such as `docs/`, `outputs/`, `tools/`, and `archive/` over deeply customized top-level directories.
-- Keep `memory/index.md` short enough to read every time.
-- If the folder already has a strong structure, augment it instead of replacing it.
-- If files are sensitive or hard to classify, leave them in place and index them rather than moving them.
-- Never delete or overwrite user files as part of “cleanup” without explicit approval.
+- Prefer fewer stable entrances over many precise but overlapping categories.
+- Prefer a project card over extra note folders.
+- Prefer creating folders when content exists, not in anticipation.
+- Promote a project artifact to `library/` only after cross-project reuse is clear.
+- Keep historical migrations in `memory/`; do not keep empty archive shells.
+- Treat a move outside the target workspace, an overwrite, and deletion of non-empty content as approval boundaries.
+- Prefer a compact structure that remains understandable without Codex.
 
-## Useful Deliverables
+## References
 
-Depending on the user request, produce one or more:
-
-- A proposed structure plan.
-- Implemented directory migration.
-- `AGENTS.md`.
-- `inbox/README.md`.
-- `memory/index.md`.
-- Topic knowledge files under `memory/`.
-- `projects/*/PROJECT.md` cards.
-- `memory/migration-map-YYYY-MM-DD.md`.
-- A packaged skill, template, or README for others to reuse.
-
-## Reference Template
-
-For reusable starter text and neutral examples, read `references/structure-template.md`.
+- Read `references/structure-template.md` when creating a new workspace or rewriting navigation files.
+- Read `references/v2-migration.md` when upgrading an older workspace that contains legacy top-level categories.

@@ -1,4 +1,4 @@
 interface:
   display_name: "Workspace Memory Optimizer"
-  short_description: "Turn a messy folder into a reusable Codex memory workspace."
-  default_prompt: "Fully restructure this folder into a reusable Codex memory workspace with AGENTS.md, inbox/, memory/index.md, project cards, knowledge files, and a migration map."
+  short_description: "Build or upgrade a compact memory-first workspace."
+  default_prompt: "Use $workspace-memory-optimizer to organize or upgrade this folder into a version 2 memory-first workspace with four visible entrances and traceable moves."
